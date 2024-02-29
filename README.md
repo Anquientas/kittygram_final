@@ -1,6 +1,6 @@
 # Kittygram (Final)
 
-![Status workflow.](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![Status workflow.](https://github.com/Anquientas/kittygram_final/actions/workflows/main.yml/badge.svg)
 
 Проект предназначен для просмотра фотографий кошек, выкладываемых их хозяевами
 
