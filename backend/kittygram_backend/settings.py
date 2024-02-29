@@ -1,14 +1,19 @@
 # flake8: noqa
+from dotenv import load_dotenv
+
 import os
 from pathlib import Path
 
+
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split()
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -54,16 +59,27 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kittygram_backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'kittygram'),
-        'USER': os.getenv('POSTGRES_USER', 'kittygram_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', ''),
-        'PORT': os.getenv('DB_PORT', 5432)
+DATABASES = os.getenv('DATABASES', 'postgresql')
+
+if DATABASES != 'postgresql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB', 'kittygram'),
+            'USER': os.getenv('POSTGRES_USER', 'kittygram_user'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', ''),
+            'PORT': os.getenv('DB_PORT', 5432)
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -85,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'RU'
 
 USE_I18N = True
 
