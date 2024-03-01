@@ -1,4 +1,3 @@
-# docker-compose.production.yml
 version: '3'
 
 volumes:
@@ -6,7 +5,6 @@ volumes:
   media_volume:
   static_volume:
 
-# Всё отличие — заменяем build на image и указываем, какой образ использовать
 services:
   db:
     image: postgres:13.10
@@ -17,6 +15,8 @@ services:
   backend:
     image: anquientas/kittygram_backend
     env_file: .env
+    depends_on:
+      - db
     volumes:
       - static_volume:/backend_static
   frontend:
@@ -28,6 +28,9 @@ services:
   gateway:
     image: anquientas/kittygram_gateway
     env_file: .env
+    depends_on:
+      - backend
+      - frontend
     volumes:
       - static_volume:/static
       - media_volume:/media
